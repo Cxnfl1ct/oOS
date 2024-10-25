@@ -11,15 +11,15 @@ void BufferSwap(uint8_t* buf1, uint8_t* buf2, uint32_t size = (320*200));
 
 
 
-KasugaPaint::KasugaPaint() {
+Paint::Paint() {
 
 	this->appType = 2;
 }
 
-KasugaPaint::~KasugaPaint() {
+Paint::~Paint() {
 }
 
-void KasugaPaint::ComputeAppState(GraphicsContext* gc, CompositeWidget* widget) {
+void Paint::ComputeAppState(GraphicsContext* gc, CompositeWidget* widget) {
 
 	if (widget->Menu) {
 
@@ -89,12 +89,12 @@ void KasugaPaint::ComputeAppState(GraphicsContext* gc, CompositeWidget* widget) 
 }
 
 
-void KasugaPaint::DrawAppMenu(GraphicsContext* gc, CompositeWidget* widget) {
+void Paint::DrawAppMenu(GraphicsContext* gc, CompositeWidget* widget) {
 }
 
 
 
-void KasugaPaint::SaveOutput(char* file, CompositeWidget* widget, FileSystem* filesystem) {
+void Paint::SaveOutput(char* file, CompositeWidget* widget, FileSystem* filesystem) {
 	
 	uint8_t tmp[64000];
 
@@ -110,7 +110,7 @@ void KasugaPaint::SaveOutput(char* file, CompositeWidget* widget, FileSystem* fi
 
 
 
-void KasugaPaint::ReadInput(char* file, CompositeWidget* widget, FileSystem* filesystem) {
+void Paint::ReadInput(char* file, CompositeWidget* widget, FileSystem* filesystem) {
 
 	if (filesystem->FileIf(fnv1a(file)) == false) { return; }
 
@@ -135,7 +135,7 @@ void KasugaPaint::ReadInput(char* file, CompositeWidget* widget, FileSystem* fil
 
 
 
-void KasugaPaint::OnKeyDown(char ch, CompositeWidget* widget) {
+void Paint::OnKeyDown(char ch, CompositeWidget* widget) {
 
 	//f# keys deciding color offset	
 	if (ch < 4) {
@@ -204,7 +204,7 @@ void KasugaPaint::OnKeyDown(char ch, CompositeWidget* widget) {
 }
 
 
-void KasugaPaint::Zoom(CompositeWidget* widget, bool increase) {
+void Paint::Zoom(CompositeWidget* widget, bool increase) {
 
 	if (increase && zoomSize == 1) {
 	
@@ -235,7 +235,7 @@ void KasugaPaint::Zoom(CompositeWidget* widget, bool increase) {
 
 
 
-void KasugaPaint::Fill(CompositeWidget* widget) {
+void Paint::Fill(CompositeWidget* widget) {
 
 	for (uint8_t y = 0; y < this->height; y++) {
 		for (uint16_t x = 0; x < this->width; x++) {
@@ -246,19 +246,19 @@ void KasugaPaint::Fill(CompositeWidget* widget) {
 }
 
 
-void KasugaPaint::Rectangle(int32_t x0, int32_t y0, 
+void Paint::Rectangle(int32_t x0, int32_t y0, 
 			int32_t x1, int32_t y1, 
 			CompositeWidget* widget) {
 }
 
 
-void KasugaPaint::Circle(int32_t x, int32_t y, 
+void Paint::Circle(int32_t x, int32_t y, 
 			int32_t r, CompositeWidget* widget) {
 
 	widget->DrawCircle(x, y, r, paintColor);
 }
 
-void KasugaPaint::LightBrush(int32_t oldx, int32_t oldy, 
+void Paint::LightBrush(int32_t oldx, int32_t oldy, 
 			     int32_t newx, int32_t newy, CompositeWidget* widget) {
 
 	bool pixelOffset = false;
@@ -275,7 +275,7 @@ void KasugaPaint::LightBrush(int32_t oldx, int32_t oldy,
 	}
 }
 
-void KasugaPaint::Bucket(int32_t x, int32_t y, CompositeWidget* widget) {
+void Paint::Bucket(int32_t x, int32_t y, CompositeWidget* widget) {
 
 	uint8_t color = widget->buf[320*y+x];
 	uint16_t xo = x;
@@ -293,14 +293,14 @@ void KasugaPaint::Bucket(int32_t x, int32_t y, CompositeWidget* widget) {
 
 
 
-void KasugaPaint::DrawSize(bool increase) {
+void Paint::DrawSize(bool increase) {
 
 	if (increase) { this->size += 1 * (size < 49);
 	} else {	this->size -= 1 * (size > 0); }
 }
 
 
-void KasugaPaint::Dimensions(bool width, bool increase) {
+void Paint::Dimensions(bool width, bool increase) {
 
 	if (width) { 
 		if (increase) { this->width += 1 * (width < 320); 
@@ -314,11 +314,11 @@ void KasugaPaint::Dimensions(bool width, bool increase) {
 
 
 
-void KasugaPaint::OnKeyUp(char ch, CompositeWidget* widget) {
+void Paint::OnKeyUp(char ch, CompositeWidget* widget) {
 }
 
 
-void KasugaPaint::OnMouseDown(int32_t x, int32_t y, uint8_t button, CompositeWidget* widget) {
+void Paint::OnMouseDown(int32_t x, int32_t y, uint8_t button, CompositeWidget* widget) {
 
 	
 	if (widget->ContainsCoordinateButton(x, y+10) == 0) {
@@ -373,7 +373,7 @@ void KasugaPaint::OnMouseDown(int32_t x, int32_t y, uint8_t button, CompositeWid
 	}
 }
 
-void KasugaPaint::OnMouseUp(int32_t x, int32_t y, uint8_t button, CompositeWidget* widget) {
+void Paint::OnMouseUp(int32_t x, int32_t y, uint8_t button, CompositeWidget* widget) {
 	
 	if (drawing) {
 		
@@ -407,7 +407,7 @@ void KasugaPaint::OnMouseUp(int32_t x, int32_t y, uint8_t button, CompositeWidge
 }
 
 
-void KasugaPaint::OnMouseMove(int32_t oldx, int32_t oldy, int32_t newx, int32_t newy, CompositeWidget* widget) {
+void Paint::OnMouseMove(int32_t oldx, int32_t oldy, int32_t newx, int32_t newy, CompositeWidget* widget) {
 	
 	if (drawing && newx < this->width && newy < this->height 
 			&& newx >= 0 && newy >= 0) {
