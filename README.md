@@ -32,12 +32,12 @@ For the next major update I plan on further building the network stack and imple
 <h2>Important Command List</h2>
 
 <br>GENERIC</br>  
-<br>"say (string)"   - print out whatever arguments were passed.</br> 
+<br>"echo (string)"   - print out whatever arguments were passed.</br> 
 <br>"help"           - list common commands and keyboard shortcuts.</br>
 <br>"clear"          - clear text from screen.</br>
 
 <br>DRIVERS/SYSTEM</br>
-<br>"delay (int)"          - use the PIT timer to delay the system by (int) number of milliseconds.</br>
+<br>"sleep (int)"          - use the PIT timer to delay the system by (int) number of milliseconds.</br>
 <br>"beep (int)"           - use the pc speaker to beep at (int) frequency.</br>
 <br>"rmem (int)"           - read value from (int) memory address.</br>
 <br>"wmem (int) (int)"     - write 2nd (int) value to 1st (int) memory address.</br>
@@ -45,10 +45,10 @@ For the next major update I plan on further building the network stack and imple
 <br>"wdisk (int) (string)" - write (string) data to (int) sector.</br>
 
 <br>FILESYSTEM</br>
-<br>"files"         - list all known files and number of files currently allocated.</br>
+<br>"ls"         - list all known files and number of files currently allocated.</br>
 <br>"tag"           - assign an organizational tag to given files.</br>
-<br>"size (file)"   - print out size of (file) in bytes.</br>
-<br>"delete (file)" - deletes and removes (file) from filesystem. [partly broken]</br>
+<br>"stat (file)"   - print out size of (file) in bytes.</br>
+<br>"rm (file)" - deletes and removes (file) from filesystem. [partly broken]</br>
 
 <br>MicroPython</br>
 <br>Check <link> for documentation of included APIs</br>
