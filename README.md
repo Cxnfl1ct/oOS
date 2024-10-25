@@ -4,7 +4,7 @@
 
 <h2>oOS alpha</h2>
 
-oOS is a 32 bit, (optionally) multitasking, megalithic operating system. It is meant to emulate the experience of a videogame or demo software rather than a traditional desktop operating system. It uses different text modes and graphical programs to edit files using the <b>FAT32</b> and create programs using the <b>MicroPython</b> scripting language.
+oOS is a 32 bit, (optionally) multitasking, megalithic operating system.  It uses different text modes and graphical programs to edit files using the <b>FAT32</b> and create programs using the <b>MicroPython</b> scripting language.
 
 Multitasking kernel programs, file allocation, graphical window manipulation, GUI desktop environment, and much more
 
@@ -50,19 +50,6 @@ For the next major update I plan on further building the network stack and imple
 <br>"size (file)"   - print out size of (file) in bytes.</br>
 <br>"delete (file)" - deletes and removes (file) from filesystem. [partly broken]</br>
 
-<br>AYUMUSCRIPT</br>
-<br>"int (string) (int)"               - define variable with name (string) and value (int).</br>
-<br>"+ (string) (int)"                 - add value (int) to variable (string).</br>
-<br>"- (string) (int)"                 - subtract value (int) from variable (string).</br>
-<br>"* (string) (int)"                 - multiply value (int) by variable (string).</br>
-<br>"/ (string) (int)"                 - divide variable (string) by value (int).</br>
-<br>"if/loop (var/int) (op) (var/int)" - determine if expression is true, if so nothing changes, if not, commands won't be processed.</br>
-<br>"fi/pool"                          - allow command to be processed again.</br>
-<br>"putpixel (int) (int) (int)"       - draw pixel at x and y coordinates with given color value.</br>
-<br>"window (string)"                  - create user window for graphical programming.</br>
-<br>"drawpic (file)"                   - fill buffer of image onto graphical target.</br>
-<br>"// (string)"                      - does nothing, meant for comments in AyumuScript files.</br>
-<br>"ex (file)"                        - executes files as a script (singletasking).</br>
-<br>"ext (file)"                       - executes files as a script (multitasking).</br>
-
+<br>MicroPython</br>
+<br>Check <link> for documentation of included APIs</br>
 
