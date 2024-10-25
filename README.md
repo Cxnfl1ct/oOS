@@ -1,13 +1,14 @@
-# osakaOS v2.0
-![](cube.gif)
+# oOS alpha
 
-<h2>The Osaka Operating System v2.0.</h2>
+> Original code done by https://github.com/pac-ac
 
-osakaOS is a 32 bit, (optionally) multitasking, megalithic operating system that is made with a focus on unconventional/ridiculous design choices. It is meant to emulate the experience of a videogame or demo software rather than a traditional desktop operating system. It uses different text modes and graphical programs to edit files using the <b>Osaka FileSystem</b> and create programs using the <b>AyumuScript</b> scripting language.
+<h2>oOS alpha</h2>
 
-Multitasking kernel programs, file allocation, graphical window manipulation, a paint GUI program, and much more :)
+oOS is a 32 bit, (optionally) multitasking, megalithic operating system. It is meant to emulate the experience of a videogame or demo software rather than a traditional desktop operating system. It uses different text modes and graphical programs to edit files using the <b>FAT32</b> and create programs using the <b>MicroPython</b> scripting language.
 
-![](desktop.png)
+Multitasking kernel programs, file allocation, graphical window manipulation, GUI desktop environment, and much more
+
+![]()
 
 <h2>How to run/compile</h2>
 
@@ -24,19 +25,9 @@ If you're using a linux host and use pulseaudio like me, add this line <code>loa
 to <code>/etc/pulse/default.pa</code>. Then restart pulseaudio and the settings in the makefile should work. <a href="https://stackoverflow.com/questions/59988019/emulator-pulseaudio-access-denied">(original post here)</a>
 
 <h2>Extra</h2>
-
-During development this project was/will receive monthly updates on my <a href="https://www.youtube.com/@dpacarana">youtube page.</a>
-
-This project is partly based on the <a href="https://github.com/AlgorithMan-de/wyoos">WYOOS</a> tutorial series. Although many things from the tutorial have been changed or removed for various reasons.
-
 Current bugs may include, window input for scripts being janky, paint width being difficult, small GUI errors when drawing programs, and other stuff too long to list here. 
 
 For the next major update I plan on further building the network stack and implement internet functionality, along with more advanced graphical applications and custom media encodings.
-
-<i>Why did you make an entire OS after this character? Are you obsessed or something?</i>
-No, I just thought it would be funny.
-
-![](room.png)
 
 <h2>Important Command List</h2>
 
