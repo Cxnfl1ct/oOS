@@ -23,7 +23,6 @@ void TUI(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, bool);
 void putcharTUI(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
 uint16_t setTextColor(bool set, uint16_t color = 0x07);
 void printf(char*);
-void printOsaka(uint8_t, bool);
 
 uint16_t strlen(char* args);
 bool strcmp(char* str1, char* str2);
@@ -570,13 +569,6 @@ void ping(char* args, CommandLine* cli) {
 void terminal(char* args, CommandLine* cli) {
 	
 	if (cli->gui) { cli->appWindow->parent->CreateChild(1, "Osaka's Terminal", 0); }
-	else { cli->PrintCommand("This command is not available in text mode.\n"); }
-}
-
-
-void kasugapaint(char* args, CommandLine* cli) {
-	
-	if (cli->gui) { cli->appWindow->parent->CreateChild(2, "KasugaPaint", 0); }
 	else { cli->PrintCommand("This command is not available in text mode.\n"); }
 }
 
@@ -1278,8 +1270,8 @@ void help(char* args, CommandLine* cli) {
 	cli->PrintCommand(ch);
 
 	cli->PrintCommand("If you feel lost, try the following commands: \n\n");
-	cli->PrintCommand("    'say (string)', 'osaka (int)', 'beep (int)',\n");
-	cli->PrintCommand("    'files', 'delete (file)', 'ex (file)',\n");
+	cli->PrintCommand("    'echo (string)', 'beep (int)',\n");
+	cli->PrintCommand("    'ls', 'rm (file)', 'ex (file)',\n");
 	cli->PrintCommand("    'int (string) (int)', '+ (string) (int)',\n");
 	cli->PrintCommand("    'rdisk (int) (int)', 'wdisk (int) (string)'\n");
 	cli->PrintCommand("    'rmem (int)', 'wmem (int) (int)'\n\n");
@@ -1361,31 +1353,6 @@ void rng(char* args, CommandLine* cli) {
 
 
 void PANIC(char* args, CommandLine* cli) {
-
-	Speaker speaker;
-
-	if (cli->gui == false) {
-		
-		while (1) {
-			for (int i = 0; i < 4; i++) {
-		
-				cli->PrintCommand("___   ___   _______   ___     _____         ___     ___   _______    _    \n");
-				cli->PrintCommand("| |   | |   | ____|   | |     |    \\        |  \\   /  |   | ____|   | |   \n");
-				cli->PrintCommand("| |___| |   | |____   | |     | ___/        |   \\ /   |   | |____   | |   \n");
-				cli->PrintCommand("| _____ |   | ____|   | |     | |           | |  v  | |   | ____|   |_|   \n");
-				cli->PrintCommand("| |   | |   | |____   | |___  | |           | |\\   /| |   | |____    _    \n");
-				cli->PrintCommand("|_|   |_|   |_____|   |____|  |_|           |_| \\ / |_|   |_____|   |_|   \n");
-			}
-			speaker.PlaySound(1100);
-			sleep(700);
-		
-			cli->PrintCommand("\v");
-			speaker.NoSound();
-			sleep(700);
-		}
-	} else {
-		cli->appWindow->Print("This command is only available in text mode.\n");
-	}
 }	
 
 
@@ -1432,18 +1399,6 @@ void clear(char* args, CommandLine* cli) {
 			cli->conditionIf = true;
 			cli->conditionLoop = true;
 		}
-	}
-}
-
-
-void osaka(char* args, CommandLine* cli) {
-
-	if (cli->gui == false) {
-
-		uint32_t value = numOrVar(args, cli, 0);
-		printOsaka(value, 0);
-	} else {
-		cli->appWindow->Print("This command is only available in text mode.\n");
 	}
 }
 
@@ -1548,7 +1503,7 @@ void CommandLine::hash_cli_init() {
 
 	//compute and add functions 
 	//to hash table on boot
-	this->hash_add("say", say);
+	this->hash_add("echo", say);
 	this->hash_add("print", print);
 	this->hash_add("textcolor", textcolor);
 	this->hash_add("help", help);
@@ -1576,7 +1531,6 @@ void CommandLine::hash_cli_init() {
 	this->hash_add("delay", delay);
 	this->hash_add("sleep", userSleep);
 	this->hash_add("rng", rng);
-	this->hash_add("osaka", osaka);
 	this->hash_add("dad", dad);
 	this->hash_add("date", date);
 	this->hash_add("beep", beep);
@@ -1591,10 +1545,9 @@ void CommandLine::hash_cli_init() {
 	this->hash_add("detag", detag);
 	this->hash_add("cat", cat);
 	this->hash_add("size", size);
-	this->hash_add("create", createFile);
-	this->hash_add("delete", deleteFile);
+	this->hash_add("touch", createFile);
+	this->hash_add("rm", deleteFile);
 	this->hash_add("terminal", terminal);
-	this->hash_add("kasugapaint", kasugapaint);
 	this->hash_add("journal", journal);
 	this->hash_add("window", window);
 	this->hash_add("targetgui", targetgui);
