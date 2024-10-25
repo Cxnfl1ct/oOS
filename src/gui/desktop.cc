@@ -19,8 +19,7 @@ Desktop::Desktop(common::int32_t w, common::int32_t h,
 		 MemoryManager* memoryManager,
 		 FileSystem* filesystem,
 		 CMOS* cmos, DriverManager* drvManager,
-		 Button* buttons,
-		 Simulator* osaka)
+		 Button* buttons)
 : CompositeWidget(0, 0, 0, w, h, "desktop", color, false), 
   MouseEventHandler() {
 
@@ -37,7 +36,6 @@ Desktop::Desktop(common::int32_t w, common::int32_t h,
 	this->cmos = cmos;
 	this->drvManager = drvManager;
 	this->buttons = buttons;
-	this->osaka = osaka;
 
 
 	//setup background
@@ -140,36 +138,8 @@ void Desktop::FreeChild(Window* window) {
 
 
 void Desktop::Draw(common::GraphicsContext* gc) {
-	
-	if (this->keyValue == 0x5b) {
-
-		this->osaka->sim ^= 1;
-		this->OnMouseUp(0);
-		this->keyValue = 0;
-	}
-	
-	
-	if (this->osaka->sim == false) {
-
-		//draw background
-		gc->FillBuffer(0, 0, 320, 200, this->buf, false);
-	
-		//draw buttons
-		if (drawButtons) { this->buttons->Draw(gc); }
-
-		//draw windows
-		CompositeWidget::Draw(gc);
-
-		//taskbar
-		if (this->taskbar) { this->DrawTaskBar(gc); }
-	} else {
-		//osaka simulator
-		this->osaka->DrawRoom(gc);
-	}
 	gc->MakeDark(this->osaka->darkLevel);
 	gc->MakeWave(this->osaka->waveLength);
-
-	
 
 	//cursor
 	this->MouseDraw(gc);
@@ -263,41 +233,8 @@ void Desktop::MouseDraw(common::GraphicsContext* gc) {
 	int8_t offsetX = 0;
 	int8_t offsetY = 0;
 
-
-	if (this->osaka->sim == false) {
-
-		if (this->focussedChild == 0) {
-
-			if (click) { cursorArt = cursorClickLeft; } 
-			else { cursorArt = cursorNormal; }
-		} else {
-			//unique cursors for each program
-			switch (this->focussedChild->ReturnAppType()) {
-			
-				case 2:
-					cursorArt = cursorChiChi;
-					mouseW = 17;
-					mouseH = 19;
-					offsetY = -3;
-					offsetX = -1;
-					break;
-				case 3:
-					cursorArt = cursorPencil;
-					mouseW = 16;
-					mouseH = 16;
-					break;
-				default:
-					cursorArt = cursorClassic;
-					mouseW = 7;
-					mouseH = 7;
-					break;
-			}
-		}
-	} else {
-		cursorArt = cursorClassic;
-		mouseW = 7;
-		mouseH = 7;
-	}
+	if (click) { cursorArt = cursorClickLeft; } 
+	else { cursorArt = cursorNormal; }
 
 	//draw mouse
 	gc->FillBuffer(MouseX+offsetX, MouseY+offsetY, mouseW, mouseH, cursorArt, false);
@@ -309,7 +246,7 @@ void Desktop::Screenshot() {
 	//if filecount over 65535
 	//index will not exist in hex array
 	//but who cares, if you make that many
-	//files in fuckin osakaOS you deserve
+	//files in fuckin oOS you deserve
 	//to have your shit crash
 	char* fileName = "ss_0000";
 	char* hex = "0123456789abcdef";
@@ -332,29 +269,18 @@ void Desktop::Screenshot() {
 
 
 void Desktop::OnMouseDown(common::uint8_t button) {
-
-	if (this->osaka->sim) { this->osaka->OnMouseDown(MouseX, MouseY, button);
-	} else {
-		//left click after switching to sim and back
-		//and when there are 0 children (windows) causes crash
-		if (MouseY >= 190 && this->taskbar) {
-		
-			this->TaskBarClick(button);
-		}
-		this->click = true;
-		if (drawButtons) { this->buttons->OnMouseDown(MouseX, MouseY, button, this); }
-		CompositeWidget::OnMouseDown(MouseX, MouseY, button);
+	//when there are 0 children (windows) causes crash
+	if (MouseY >= 190 && this->taskbar) {
+		this->TaskBarClick(button);
 	}
+	this->click = true;
+	if (drawButtons) { this->buttons->OnMouseDown(MouseX, MouseY, button, this); }
+	CompositeWidget::OnMouseDown(MouseX, MouseY, button);
 }
 
 void Desktop::OnMouseUp(common::uint8_t button) {
-	
-	if (this->osaka->sim) {
-		//this->osaka->OnMouseUp(MouseX, MouseY, button);
-	} else {
-		this->click = false;
-		CompositeWidget::OnMouseUp(MouseX, MouseY, button);
-	}
+	this->click = false;
+	CompositeWidget::OnMouseUp(MouseX, MouseY, button);
 }
 
 void Desktop::OnMouseMove(int x, int y) {
@@ -365,10 +291,6 @@ void Desktop::OnMouseMove(int x, int y) {
 
 	int32_t newMouseY = MouseY + y;
 	this->oldMouseY = MouseY;
-	
-	
-	if (this->osaka->sim) { this->osaka->OnMouseMove(MouseX, MouseY, newMouseX, newMouseY); }
-
 
 	if (newMouseX < 0) { newMouseX = 0; }
 	if (newMouseX >= w) { newMouseX = w - 1; }
@@ -384,28 +306,24 @@ void Desktop::OnMouseMove(int x, int y) {
 
 
 void Desktop::OnKeyDown(char str) {
-
-	if (this->osaka->sim) { this->osaka->OnKeyDown(str);
-	} else {
-		switch (str) {
+	switch (str) {
 	
-			//f# keys	
-			case 1: this->taskbar ^= 1; break;
-			case 7:
-				{
-					/*
-					for (int i = 0; i < this->numChildren; i++) {
+	//f# keys	
+		case 1: this->taskbar ^= 1; break;
+		case 7:
+			{
+				/*
+				for (int i = 0; i < this->numChildren; i++) {
 					
-						this->children[i]->
-					}
-					*/
+					this->children[i]->
 				}
-				break;
-			default:
-				break;
-		}
-		CompositeWidget::OnKeyDown(str);
+				*/
+			}
+			break;
+		default:
+			break;
 	}
+	CompositeWidget::OnKeyDown(str);
 
 	//take screenshot
 	if (str == 6) { this->takeSS = true; }
@@ -413,7 +331,5 @@ void Desktop::OnKeyDown(char str) {
 
 
 void Desktop::OnKeyUp(char str) {
-	
-	if (this->osaka->sim) { this->osaka->OnKeyUp(str); }
-	else { CompositeWidget::OnKeyUp(str); }
+	CompositeWidget::OnKeyUp(str);
 }
