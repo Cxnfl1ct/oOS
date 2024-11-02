@@ -51,5 +51,5 @@ For the next major update I plan on further building the network stack and imple
 <br>"rm (file)" - deletes and removes (file) from filesystem. [partly broken]</br>
 
 <br>MicroPython</br>
-<br>Check <link> for documentation of included APIs</br>
+<br>Check <[link]> for documentation of included APIs</br>
 
